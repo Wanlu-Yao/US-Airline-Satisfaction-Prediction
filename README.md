@@ -1,1 +1,3 @@
 # US-Airline-Satisfaction-Prediction
+We all have witnessed the growth and change of the US aviation industry in the past 20 years. More and more people rely on the convenience of taking flights to their destinations. While the needs are increasing, some challenges come with them. 
+From the customer survey, we can observe that almost half of the population is neutral or dissatisfied with US Airline services. The proportion of satisfied customers and dissatisfied is approximately the same. Therefore, the goal of this report is to gain some insights from the data and provide some suggestions for US Airline to improve their customer satisfaction.
