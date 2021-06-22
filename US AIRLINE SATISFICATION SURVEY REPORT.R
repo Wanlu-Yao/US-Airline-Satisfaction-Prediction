@@ -1,4 +1,4 @@
-#ALY6040 GROUP 5 FINAL REPORT R CODE
+#import libraries & packges
 library(readxl)
 library(gmodels)
 library(ggplot2)
@@ -30,17 +30,20 @@ library(lime)
 library(rattle)
 library(stats)
 library(ggfortify)
+
 #import the dataset
 satisfaction <- read_excel("/Users/yaowanlu/Desktop/satisfaction.xlsx")
 str(satisfaction)
 summary(satisfaction)
+
 # data cleanup
 satisfaction1 <- satisfaction[-c(1)]
 satisfaction2 <- na.omit(satisfaction1)
 summary(satisfaction2)
 str(satisfaction2)
 CrossTable(satisfaction2$satisfaction_v2 ,digits = 7)
-#EDA
+
+# EDA
 ggplot(satisfaction2, aes(x = satisfaction_v2)) +  
   geom_bar(aes(y = (..count..)/sum(..count..)), fill= c("#099DD9","orange"))+
   scale_y_continuous(labels=scales::percent) +
@@ -76,7 +79,8 @@ ggplot(satisfaction2, aes(satisfaction_v2, group = `Type of Travel`)) +
 satisfaction3 <-satisfaction2 %>% select(-(2:6))
 satisfaction3$satisfaction_v2 <- ifelse(satisfaction3$satisfaction_v2=="satisfied", 1,0)
 summary(satisfaction3)
-#Correlation Matrix
+
+# Correlation Matrix
 M <-cor(satisfaction3)
 corrplot.mixed(M, lower.col="black")
 p1 <-boxplot(satisfaction3$`Inflight entertainment`,xlab="Inflight entertainment",ylab="score",col="orange",border="brown")
@@ -119,9 +123,11 @@ dim(train)
 dim(test)
 head(train)
 head(test)
+
 #Linear Regression Model
 null_model <- lm(score ~ 1, data = train)
 full_model <- lm(score ~ ., data = train)
+
 #Stepwise Selection
 step(null_model,
      scope=list(upper=full_model),
@@ -148,7 +154,7 @@ rmse
 
 # Logistic Regression Model
 s4 <- na.omit(s1)
-set.seed(12345)
+set.seed(123)
 row.number <- sample(x=1:nrow(s4), size=0.7*nrow(s4))
 train = s4[row.number, ]
 test = s4[-row.number,]
@@ -201,13 +207,14 @@ r2
 rmse <- sqrt(mean(y_predicted-y_test)^2)
 rmse
 
-#import data
+# data preparation
 satisfaction <- read_excel("/Users/yaowanlu/Desktop/satisfaction.xlsx")
 cat.names = satisfaction %>% select_if(is.character) %>% colnames()
 s1 <- satisfaction[-c(1)]
 s1[,cat.names] = data.frame(sapply(s1[,cat.names], as.factor))
 s2 <- na.omit(s1)
 str(s2)
+
 #Decision Tree Model
 set.seed(123)
 split <- initial_split(s2, prop = .7)
